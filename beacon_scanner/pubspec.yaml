@@ -1,7 +1,7 @@
 name: beacon_scanner
 description: A Flutter plugin for scanning bluetooth low energy iBeacon frames.
   Works also in background.
-#repository: https://github.com/teldio-operations/beacon_scanner/tree/test-pubspec
+repository: https://github.com/teldio-operations/beacon_scanner/tree/test-pubspec
 #issue_tracker: https://github.com/gfosmbh/beacon_scanner/issues?q=is%3Aissue+is%3Aopen
 version: 0.0.4
 
