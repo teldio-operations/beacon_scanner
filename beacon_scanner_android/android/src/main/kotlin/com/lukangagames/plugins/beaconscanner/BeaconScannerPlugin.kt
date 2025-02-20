@@ -171,6 +171,17 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
                 }
             }
 
+            "setUseTrackingCache" -> {
+                val enabled = call.argument<Boolean>("enable") ?: false
+                BeaconManager.setUseTrackingCache(enabled)
+                result.success(true)
+            }
+            "setMaxTrackingAge" -> {
+                val maxTrackingAge = call.argument<Int>("maxTrackingAge") ?: 5000
+                beaconManager!!.setMaxTrackingAge(maxTrackingAge)
+                result.success(true)
+            }
+
             "authorizationStatus" -> result.success(if (platform!!.checkLocationServicesPermission()) "ALLOWED" else "NOT_DETERMINED")
 
             "checkLocationServicesIfEnabled" -> result.success(platform!!.checkLocationServicesIfEnabled())

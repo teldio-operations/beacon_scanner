@@ -13,10 +13,12 @@ class BeaconScanner {
   /// Check for the latest [AuthorizationStatus] from device.
   ///
   /// For Android, this will return [AuthorizationStatus.allowed], [AuthorizationStatus.denied] or [AuthorizationStatus.notDetermined].
-  Future<AuthorizationStatus> get authorizationStatus => BeaconScannerPlatform.instance.authorizationStatus;
+  Future<AuthorizationStatus> get authorizationStatus =>
+      BeaconScannerPlatform.instance.authorizationStatus;
 
   /// Check for the latest [BluetoothState] from device.
-  Future<BluetoothState> get bluetoothState => BeaconScannerPlatform.instance.bluetoothState;
+  Future<BluetoothState> get bluetoothState =>
+      BeaconScannerPlatform.instance.bluetoothState;
 
   /// Initialize scanning API.
   /// When [withCheck] is active, it will check required permissions
@@ -29,7 +31,8 @@ class BeaconScanner {
   /// whether location services is enabled.
   Future<bool> initialize([bool withCheck = false]) async {
     if (withCheck) {
-      return isInitialize = await BeaconScannerPlatform.instance.initializeAndCheckScanning();
+      return isInitialize =
+      await BeaconScannerPlatform.instance.initializeAndCheckScanning();
     } else {
       return isInitialize = await BeaconScannerPlatform.instance.initialize();
     }
@@ -45,26 +48,40 @@ class BeaconScanner {
   /// Start ranging iBeacons with defined [List] of [Region]s.
   ///
   /// This will fires [RangingResult] whenever the iBeacons in range.
-  Stream<ScanResult> ranging(List<Region> regions) => BeaconScannerPlatform.instance.ranging(regions);
+  Stream<ScanResult> ranging(List<Region> regions) =>
+      BeaconScannerPlatform.instance.ranging(regions);
 
   /// Start monitoring iBeacons with defined [List] of [Region]s.
   ///
   /// This will fires [MonitoringResult] whenever the iBeacons in range.
-  Stream<MonitoringResult> monitoring(List<Region> regions) => BeaconScannerPlatform.instance.monitoring(regions);
+  Stream<MonitoringResult> monitoring(List<Region> regions) =>
+      BeaconScannerPlatform.instance.monitoring(regions);
 
   /// Customize period of the beacon scan on the Android Platform.
-  Future<bool> setScanPeriod(Duration scanPeriod) async => BeaconScannerPlatform.instance.setScanPeriod(scanPeriod.inMilliseconds);
+  Future<bool> setScanPeriod(Duration scanPeriod) async =>
+      BeaconScannerPlatform.instance.setScanPeriod(scanPeriod.inMilliseconds);
 
   /// Customize duration of the beacon scan on the Android Platform.
-  Future<bool> setScanDuration(Duration scanDuration) async => BeaconScannerPlatform.instance.setScanDuration(scanDuration.inMilliseconds);
+  Future<bool> setScanDuration(Duration scanDuration) async =>
+      BeaconScannerPlatform.instance.setScanDuration(
+          scanDuration.inMilliseconds);
+
+
+  Future<bool> setUseTrackingCache(bool enable) =>
+      BeaconScannerPlatform.instance.setUseTrackingCache(enable);
+
+  Future<bool> setMaxTrackingAge(int age) =>
+      BeaconScannerPlatform.instance.setMaxTrackingAge(age);
 
   /// Start checking for bluetooth state changed.
   ///
   /// This will fires [BluetoothState] whenever bluetooth state changed.
-  Stream<BluetoothState> bluetoothStateChanged() => BeaconScannerPlatform.instance.bluetoothStateChanged();
+  Stream<BluetoothState> bluetoothStateChanged() =>
+      BeaconScannerPlatform.instance.bluetoothStateChanged();
 
   /// Return `true` when location service is enabled, otherwise `false`.
-  Future<bool> checkLocationServicesIfEnabled() => BeaconScannerPlatform.instance.checkLocationServicesIfEnabled();
+  Future<bool> checkLocationServicesIfEnabled() =>
+      BeaconScannerPlatform.instance.checkLocationServicesIfEnabled();
 
   /// Set the default AuthorizationStatus to use in requesting location authorization.
   /// For iOS, this can be either [AuthorizationStatus.whenInUse] or [AuthorizationStatus.always].
@@ -73,35 +90,43 @@ class BeaconScanner {
   /// This method should be called very early to have an effect,
   /// before any of the other initializeScanning or authorizationStatus getters.
   ///
-  Future<bool> setLocationAuthorizationTypeDefault(AuthorizationStatus authorizationStatus) =>
-      BeaconScannerPlatform.instance.setLocationAuthorizationTypeDefault(authorizationStatus);
+  Future<bool> setLocationAuthorizationTypeDefault(
+      AuthorizationStatus authorizationStatus) =>
+      BeaconScannerPlatform.instance.setLocationAuthorizationTypeDefault(
+          authorizationStatus);
 
   /// Start checking for location service authorization status changed.
   ///
   /// This will fires [AuthorizationStatus] whenever authorization status changed.
-  Stream<AuthorizationStatus> authorizationStatusChanged() => BeaconScannerPlatform.instance.authorizationStatusChanged();
+  Stream<AuthorizationStatus> authorizationStatusChanged() =>
+      BeaconScannerPlatform.instance.authorizationStatusChanged();
 
   /// Request an authorization to the device.
   ///
   /// For Android, this will request a permission of `Manifest.permission.ACCESS_COARSE_LOCATION`.
   /// For iOS, this will send a request `CLLocationManager#requestAlwaysAuthorization`.
-  Future<bool> requestAuthorization() => BeaconScannerPlatform.instance.requestAuthorization();
+  Future<bool> requestAuthorization() =>
+      BeaconScannerPlatform.instance.requestAuthorization();
 
   /// Request to open Application Settings from device.
   ///
   /// For Android, this will does nothing.
-  Future<bool> openApplicationSettings() => BeaconScannerPlatform.instance.openApplicationSettings();
+  Future<bool> openApplicationSettings() =>
+      BeaconScannerPlatform.instance.openApplicationSettings();
 
   /// Request to open Locations Settings from device.
   ///
   /// For iOS, this will does nothing because of private method.
-  Future<bool> openLocationSettings() => BeaconScannerPlatform.instance.openLocationSettings();
+  Future<bool> openLocationSettings() =>
+      BeaconScannerPlatform.instance.openLocationSettings();
 
   /// Request to open Bluetooth Settings from device.
   ///
   /// For iOS, this will does nothing because of private method.
-  Future<bool> openBluetoothSettings() => BeaconScannerPlatform.instance.openBluetoothSettings();
+  Future<bool> openBluetoothSettings() =>
+      BeaconScannerPlatform.instance.openBluetoothSettings();
 
   /// If the device can act like a beacon (advertising BLE-Frames)
-  Future<bool> isBroadcastSupported() => BeaconScannerPlatform.instance.isBroadcastSupported();
+  Future<bool> isBroadcastSupported() =>
+      BeaconScannerPlatform.instance.isBroadcastSupported();
 }
