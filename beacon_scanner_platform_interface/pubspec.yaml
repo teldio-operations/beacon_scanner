@@ -10,11 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface:
-    git:
-      url: https://github.com/teldio-operations/beacon_scanner
-      ref: test-pubspec
-      path: beacon_scanner_platform_interface
+  plugin_platform_interface: ^2.1.0
   meta: ^1.8.0
 
 dev_dependencies:
