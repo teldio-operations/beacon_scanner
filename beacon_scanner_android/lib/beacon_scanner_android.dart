@@ -62,7 +62,7 @@ class BeaconScannerAndroid extends BeaconScannerPlatform {
         'setScanPeriod',
         <String, Object>{'scanPeriod': scanPeriod},
       )) ??
-      false;
+          false;
 
   @override
   Future<bool> setScanDuration(int scanDuration) async =>
@@ -70,7 +70,19 @@ class BeaconScannerAndroid extends BeaconScannerPlatform {
         'setScanDuration',
         <String, Object>{'scanDuration': scanDuration},
       )) ??
-      false;
+          false;
+
+  @override
+  Future<bool> setUseTrackingCache(bool enable) async {
+    return await _channel
+        .invokeMethod('setUseTrackingCache', {"enable": enable});
+  }
+
+  @override
+  Future<bool> setMaxTrackingAge(int maxTrackingAge) async {
+    return await _channel
+        .invokeMethod('setMaxTrackingAge', {"maxTrackingAge": maxTrackingAge});
+  }
 
   @override
   Future<BluetoothState> get bluetoothState async => BluetoothState.parse(await _channel.invokeMethod('bluetoothState'));
