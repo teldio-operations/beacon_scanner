@@ -31,7 +31,7 @@ dependencies:
   beacon_scanner_platform_interface:
 #    url: https://github.com/teldio-operations/beacon_scanner
 #    ref: test-pubspec
-    path: beacon_scanner_platform
+    path: beacon_scanner_platform_interface
 
 dev_dependencies:
   flutter_test:
