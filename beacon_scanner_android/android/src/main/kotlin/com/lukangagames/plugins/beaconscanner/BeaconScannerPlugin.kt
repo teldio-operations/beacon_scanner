@@ -53,7 +53,7 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
     override fun onAttachedToEngine(binding: FlutterPluginBinding) {
         flutterPluginBinding = binding
         setupPluginMethods(binding.binaryMessenger, binding.applicationContext)
-        beaconManager?.replceSettings(Settings(
+        beaconManager?.replaceSettings(Settings(
             longScanForcingEnabled = true
         ))
     }
