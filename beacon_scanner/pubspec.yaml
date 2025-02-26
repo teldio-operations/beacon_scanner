@@ -34,7 +34,6 @@ dependencies:
     git:
       url: https://github.com/teldio-operations/beacon_scanner
       path: beacon_scanner_platform_interface
-      ref: test-long-running-scan
 
 dev_dependencies:
   flutter_test:
