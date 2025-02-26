@@ -20,6 +20,7 @@ import io.flutter.plugin.common.PluginRegistry.ActivityResultListener
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
+import org.altbeacon.beacon.Settings
 
 class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, RequestPermissionsResultListener,
     ActivityResultListener {
