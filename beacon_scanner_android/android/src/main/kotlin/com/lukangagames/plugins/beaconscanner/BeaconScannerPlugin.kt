@@ -54,7 +54,7 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
     override fun onAttachedToEngine(binding: FlutterPluginBinding) {
         flutterPluginBinding = binding
         setupPluginMethods(binding.binaryMessenger, binding.applicationContext)
-        beaconManager?.replaceSettings(Settings(
+        beaconManager?.adjustSettings(Settings(
             longScanForcingEnabled = true
         ))
     }
@@ -69,6 +69,7 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
             beaconManager?.beaconParsers?.clear()
             beaconManager?.beaconParsers?.add(iBeaconLayout)
         }
+        beaconManager?.setEnableScheduledScanJobs(false)
         platform = FlutterPlatform(context)
         beaconScanner = BeaconScannerService(this, context)
         channel = MethodChannel(messenger, "plugins.lukangagames.com/beacon_scanner_android")
@@ -133,6 +134,27 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
                 if (beaconManager != null && !beaconManager!!.isBound(beaconScanner!!.beaconConsumer)) {
                     flutterResult = result
                     beaconManager!!.bind(beaconScanner!!.beaconConsumer)
+                    val builder: Notification.Builder = Builder(this)
+                    builder.setSmallIcon(R.drawable.ic_launcher)
+                    builder.setContentTitle("Scanning for Beacons")
+                    val intent: Intent = Intent(this, MonitoringActivity::class.java)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                        this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                    builder.setContentIntent(pendingIntent)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val channel: NotificationChannel = NotificationChannel(
+                            "My Notification Channel ID",
+                            "My Notification Name", NotificationManager.IMPORTANCE_DEFAULT
+                        )
+                        channel.setDescription("My Notification Channel Description")
+                        val notificationManager: NotificationManager = getSystemService(
+                            Context.NOTIFICATION_SERVICE
+                        ) as NotificationManager
+                        notificationManager.createNotificationChannel(channel)
+                        builder.setChannelId(channel.getId())
+                    }
+                    beaconManager?.enableForegroundServiceScanning(builder.build(), 456)
                 } else {
                     result.success(true)
                 }
@@ -156,6 +178,7 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
             "setScanPeriod" -> {
                 val scanPeriod = call.argument<Int>("scanPeriod")!!
                 beaconManager!!.foregroundScanPeriod = scanPeriod.toLong()
+                beaconManager!!.setBackgroundScanPeriod(scanPeriod.toLong())
                 try {
                     beaconManager!!.updateScanPeriods()
                     result.success(true)
@@ -167,6 +190,7 @@ class BeaconScannerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Req
             "setScanDuration" -> {
                 val betweenScanPeriod = call.argument<Int>("scanDuration")!!
                 beaconManager!!.foregroundBetweenScanPeriod = betweenScanPeriod.toLong()
+                beaconManager!!.setBackgroundBetweenScanPeriod(betweenScanPeriod.toLong())
                 try {
                     beaconManager!!.updateScanPeriods()
                     result.success(true)
