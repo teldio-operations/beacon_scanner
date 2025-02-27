@@ -190,6 +190,10 @@ internal class BeaconScannerService(plugin: BeaconScannerPlugin, context: Contex
 
     private val monitorNotifier: MonitorNotifier = object : MonitorNotifier {
         override fun didEnterRegion(region: Region) {
+            if (plugin.getBeaconManager()!!.foregroundServiceStartFailed()) {
+                plugin.getBeaconManager()!!.retryForegroundServiceScanning()
+            }
+
             if (eventSinkMonitoring != null) {
                 val map: MutableMap<String, Any?> = HashMap()
                 map["event"] = "didEnterRegion"
@@ -199,6 +203,9 @@ internal class BeaconScannerService(plugin: BeaconScannerPlugin, context: Contex
         }
 
         override fun didExitRegion(region: Region) {
+            if (plugin.getBeaconManager()!!.foregroundServiceStartFailed()) {
+                plugin.getBeaconManager()!!.retryForegroundServiceScanning()
+            }
             if (eventSinkMonitoring != null) {
                 val map: MutableMap<String, Any?> = HashMap()
                 map["event"] = "didExitRegion"
